@@ -4,7 +4,7 @@ import path from 'node:path';
 import * as turf from '@turf/turf';
 
 const app = express();
-const port = 8002;  // Port number
+// const port = 8002;  // Port number
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
@@ -119,6 +119,6 @@ app.post('/create-boundary', (req, res) => {
 
 
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//     console.log(`Server running at http://localhost:${port}`);
+// });
