@@ -1,0 +1,41 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -77.03364499999999,
+                            38.895479
+                        ],
+                        [
+                            -77.031955,
+                            38.895499
+                        ],
+                        [
+                            -77.031964,
+                            38.892092999999996
+                        ],
+                        [
+                            -77.033653,
+                            38.892089999999996
+                        ],
+                        [
+                            -77.03364499999999,
+                            38.895479
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "postal-code": "20230",
+                "county-code": "001",
+                "state": "DC",
+                "city": "Washington"
+            }
+        }
+    ]
+}

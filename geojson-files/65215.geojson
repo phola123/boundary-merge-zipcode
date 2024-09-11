@@ -1,0 +1,45 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -92.32166,
+                            38.95389
+                        ],
+                        [
+                            -92.32001,
+                            38.95389
+                        ],
+                        [
+                            -92.32002,
+                            38.95297
+                        ],
+                        [
+                            -92.32003999999999,
+                            38.95245
+                        ],
+                        [
+                            -92.32171,
+                            38.95247
+                        ],
+                        [
+                            -92.32166,
+                            38.95389
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "postal-code": "65215",
+                "county-code": "019",
+                "state": "MO",
+                "city": "Columbia"
+            }
+        }
+    ]
+}

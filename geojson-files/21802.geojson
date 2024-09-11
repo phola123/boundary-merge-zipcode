@@ -1,0 +1,45 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -75.584234,
+                            38.345711
+                        ],
+                        [
+                            -75.581634,
+                            38.346931
+                        ],
+                        [
+                            -75.579973,
+                            38.344023
+                        ],
+                        [
+                            -75.583109,
+                            38.343067
+                        ],
+                        [
+                            -75.58532,
+                            38.344006
+                        ],
+                        [
+                            -75.584234,
+                            38.345711
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "postal-code": "21802",
+                "county-code": "045",
+                "state": "MD",
+                "city": "Salisbury"
+            }
+        }
+    ]
+}

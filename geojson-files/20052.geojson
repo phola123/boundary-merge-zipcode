@@ -1,0 +1,41 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -77.047271,
+                            38.900694
+                        ],
+                        [
+                            -77.046651,
+                            38.900693
+                        ],
+                        [
+                            -77.04665299999999,
+                            38.899577
+                        ],
+                        [
+                            -77.047348,
+                            38.89958
+                        ],
+                        [
+                            -77.047271,
+                            38.900694
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "postal-code": "20052",
+                "county-code": "001",
+                "state": "DC",
+                "city": "Washington"
+            }
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -80.072696,
+                            32.980387
+                        ],
+                        [
+                            -80.068831,
+                            32.979417
+                        ],
+                        [
+                            -80.069643,
+                            32.977108
+                        ],
+                        [
+                            -80.070796,
+                            32.977387
+                        ],
+                        [
+                            -80.07349099999999,
+                            32.97838
+                        ],
+                        [
+                            -80.072696,
+                            32.980387
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "postal-code": "29423",
+                "county-code": "019",
+                "state": "SC",
+                "city": "Charleston"
+            }
+        }
+    ]
+}

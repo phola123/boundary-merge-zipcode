@@ -1,0 +1,41 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -74.009254,
+                            40.713256
+                        ],
+                        [
+                            -74.007666,
+                            40.712533
+                        ],
+                        [
+                            -74.0081,
+                            40.711995
+                        ],
+                        [
+                            -74.00966799999999,
+                            40.712725
+                        ],
+                        [
+                            -74.009254,
+                            40.713256
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "postal-code": "10279",
+                "county-code": "061",
+                "state": "NY",
+                "city": "New York"
+            }
+        }
+    ]
+}

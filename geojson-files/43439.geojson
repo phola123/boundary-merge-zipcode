@@ -1,0 +1,41 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -83.043579,
+                            41.519265999999995
+                        ],
+                        [
+                            -83.038826,
+                            41.519272
+                        ],
+                        [
+                            -83.038805,
+                            41.516365
+                        ],
+                        [
+                            -83.043639,
+                            41.51583
+                        ],
+                        [
+                            -83.043579,
+                            41.519265999999995
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "postal-code": "43439",
+                "county-code": "123",
+                "state": "OH",
+                "city": "Lacarne"
+            }
+        }
+    ]
+}

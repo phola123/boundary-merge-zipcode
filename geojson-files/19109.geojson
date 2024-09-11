@@ -1,0 +1,41 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -75.164174,
+                            39.950112999999995
+                        ],
+                        [
+                            -75.162965,
+                            39.949962
+                        ],
+                        [
+                            -75.16313699999999,
+                            39.949205
+                        ],
+                        [
+                            -75.164338,
+                            39.949346
+                        ],
+                        [
+                            -75.164174,
+                            39.950112999999995
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "postal-code": "19109",
+                "county-code": "101",
+                "state": "PA",
+                "city": "Philadelphia"
+            }
+        }
+    ]
+}

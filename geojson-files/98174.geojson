@@ -1,0 +1,41 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -122.33624,
+                            47.604693
+                        ],
+                        [
+                            -122.335131,
+                            47.605157999999996
+                        ],
+                        [
+                            -122.334479,
+                            47.604445
+                        ],
+                        [
+                            -122.335588,
+                            47.60398
+                        ],
+                        [
+                            -122.33624,
+                            47.604693
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "postal-code": "98174",
+                "county-code": "033",
+                "state": "WA",
+                "city": "Seattle"
+            }
+        }
+    ]
+}

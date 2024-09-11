@@ -1,0 +1,41 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -104.986115,
+                            39.743279
+                        ],
+                        [
+                            -104.984846,
+                            39.743276
+                        ],
+                        [
+                            -104.984854,
+                            39.741675
+                        ],
+                        [
+                            -104.986116,
+                            39.741678
+                        ],
+                        [
+                            -104.986115,
+                            39.743279
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "postal-code": "80264",
+                "county-code": "031",
+                "state": "CO",
+                "city": "Denver"
+            }
+        }
+    ]
+}

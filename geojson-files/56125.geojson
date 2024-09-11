@@ -1,0 +1,41 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -95.56296999999999,
+                            44.06556
+                        ],
+                        [
+                            -95.54279,
+                            44.065419999999996
+                        ],
+                        [
+                            -95.54275,
+                            44.05092
+                        ],
+                        [
+                            -95.56291,
+                            44.05092
+                        ],
+                        [
+                            -95.56296999999999,
+                            44.06556
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "postal-code": "56125",
+                "county-code": "101",
+                "state": "MN",
+                "city": "Dovray"
+            }
+        }
+    ]
+}

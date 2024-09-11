@@ -1,0 +1,41 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -77.738573,
+                            38.967817
+                        ],
+                        [
+                            -77.736773,
+                            38.96852
+                        ],
+                        [
+                            -77.736329,
+                            38.967773
+                        ],
+                        [
+                            -77.738193,
+                            38.967089
+                        ],
+                        [
+                            -77.738573,
+                            38.967817
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "postal-code": "20118",
+                "county-code": "107",
+                "state": "VA",
+                "city": "Middleburg"
+            }
+        }
+    ]
+}

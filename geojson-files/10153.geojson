@@ -1,0 +1,41 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            -73.973015,
+                            40.764278999999995
+                        ],
+                        [
+                            -73.971411,
+                            40.763588
+                        ],
+                        [
+                            -73.971869,
+                            40.762964
+                        ],
+                        [
+                            -73.97346499999999,
+                            40.763659
+                        ],
+                        [
+                            -73.973015,
+                            40.764278999999995
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "postal-code": "10153",
+                "county-code": "061",
+                "state": "NY",
+                "city": "New York"
+            }
+        }
+    ]
+}
