@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@turf/turf": "^6.5.0",
+    "compression": "^1.7.5",
     "express": "^4.20.0",
     "geojson": "^0.5.0",
     "p-limit": "^6.1.0"
