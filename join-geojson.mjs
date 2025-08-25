@@ -429,6 +429,190 @@ app.post('/outer-shell-from-zip', async (req, res) => {
     }
 });
 
+/**
+ * POST /process-zipcodes-outer
+ *
+ * Build ONE outer boundary for EACH zip, then combine all zips together.
+ *
+ * Body:
+ * {
+ *   "zipcodes": ["51242","99522", ...],
+ *   "directory": "./geojson-files",
+ *
+ *   // how to build each zip's outline (defaults chosen to be robust):
+ *   "perZipMode": "morpho-safe" | "centroid-hull" | "shell" | "no-holes",
+ *   "perZip": {
+ *     "joinKm": 3,
+ *     "simplifyTolerance": 0.001,
+ *     "erosionFactor": 0.5,
+ *     "minAreaRetain": 0.6,
+ *     "finalConcaveKm": 0,
+ *     "maxEdgeKm": 20,
+ *     "shellType": "concave"
+ *   },
+ *
+ *   // how to combine ALL per-zip outlines into one:
+ *   "combineMode": "morpho-safe" | "centroid-hull" | "shell" | "no-holes",
+ *   "combine": {
+ *     // same knobs as above; usually a slightly larger joinKm helps fuse borders
+ *     "joinKm": 4,
+ *     "simplifyTolerance": 0.0015,
+ *     "erosionFactor": 0.5,
+ *     "minAreaRetain": 0.6,
+ *     "finalConcaveKm": 0,
+ *     "maxEdgeKm": 25,
+ *     "shellType": "concave"
+ *   }
+ * }
+ */
+app.post('/process-zipcodes-outer', async (req, res) => {
+    const {
+        zipcodes,
+        directory = './geojson-files',
+
+        // per-zip settings (how each single zip is outlined)
+        perZipMode = 'morpho-safe',
+        perZip = {},
+
+        // combine settings (how all zips are merged)
+        combineMode = 'morpho-safe',
+        combine = {}
+    } = req.body;
+
+    if (!Array.isArray(zipcodes) || !zipcodes.length) {
+        return res.status(400).json({ error: 'Invalid input. Expected a non-empty array of zip codes.' });
+    }
+
+    console.log('\n=== /process-zipcodes-outer ===');
+    console.log('zip count:', zipcodes.length);
+    console.log('perZipMode:', perZipMode, 'combineMode:', combineMode);
+
+    // Helper: compute one outer boundary for a single ZIP (reuses your safe builders)
+    async function outlineOneZip(zip) {
+        const filePath = path.join(directory, `${zip}.geojson`);
+        let input;
+        try {
+            await fs.access(filePath);
+            input = await readGeoJSON(filePath);
+        } catch {
+            await logMissingZipCodes(directory, [zip]).catch(() => {});
+            console.warn(`zip ${zip}: missing`);
+            return null;
+        }
+
+        const fc = input.type === 'FeatureCollection' ? input : turf.featureCollection([input]);
+        if (!fc.features?.length) return null;
+
+        let out = null;
+
+        if (perZipMode === 'morpho-safe') {
+            const {
+                joinKm = 3,
+                simplifyTolerance = 0.001,
+                erosionFactor = 0.5,
+                minAreaRetain = 0.6,
+                finalConcaveKm = 0
+            } = perZip;
+            out = buildMorphologicalShellSafe(fc, {
+                joinKm, simplifyTolerance, erosionFactor, minAreaRetain, finalConcaveKm
+            }) || buildCentroidHull(fc, { // fallback
+                maxEdgeKm: perZip.maxEdgeKm ?? 20,
+                simplifyTolerance
+            });
+        } else if (perZipMode === 'centroid-hull') {
+            const { maxEdgeKm = 20, simplifyTolerance = 0.001 } = perZip;
+            out = buildCentroidHull(fc, { maxEdgeKm, simplifyTolerance });
+        } else if (perZipMode === MODE.NO_HOLES) {
+            const dissolved = getOuterBoundary(fc) || fc;
+            const prepped = maybeSimplify(dissolved, perZip.simplifyTolerance ?? 0.001);
+            out = removeHoles(prepped);
+        } else {
+            // "shell": classic concave/convex on coordinate cloud
+            const coords = turf.coordAll(fc);
+            const points = turf.featureCollection(coords.map(c => turf.point(c)));
+            const { maxEdgeKm = 25, shellType = SHELL.CONCAVE } = perZip;
+            out = buildOuterShell(points, { maxEdgeKm, shellType });
+        }
+
+        return out;
+    }
+
+    try {
+        // 1) Build an outline for each zip (sequential to keep memory sane; switch to Promise.all if you prefer)
+        const perZipFeatures = [];
+        for (let i = 0; i < zipcodes.length; i++) {
+            const zip = zipcodes[i];
+            process.stdout.write(`  [${i + 1}/${zipcodes.length}] ${zip}… `);
+            const outline = await outlineOneZip(zip);
+            if (outline) {
+                perZipFeatures.push(outline);
+                console.log('ok');
+            } else {
+                console.log('skip');
+            }
+        }
+
+        if (!perZipFeatures.length) {
+            console.warn('No per-zip outlines produced.');
+            return res.json(turf.featureCollection([]));
+        }
+
+        // 2) Combine all per-zip outlines
+        let combinedFC = turf.featureCollection(perZipFeatures);
+
+        let finalOut = null;
+        if (combineMode === 'morpho-safe') {
+            const {
+                joinKm = 4,                  // slightly larger to fuse neighboring zips
+                simplifyTolerance = 0.0015,
+                erosionFactor = 0.5,
+                minAreaRetain = 0.6,
+                finalConcaveKm = 0
+            } = combine;
+            finalOut = buildMorphologicalShellSafe(combinedFC, {
+                joinKm, simplifyTolerance, erosionFactor, minAreaRetain, finalConcaveKm
+            }) || buildCentroidHull(combinedFC, { // fallback
+                maxEdgeKm: combine.maxEdgeKm ?? 25,
+                simplifyTolerance
+            });
+        } else if (combineMode === 'centroid-hull') {
+            const { maxEdgeKm = 25, simplifyTolerance = 0.0015 } = combine;
+            finalOut = buildCentroidHull(combinedFC, { maxEdgeKm, simplifyTolerance });
+        } else if (combineMode === MODE.NO_HOLES) {
+            // union all outlines then drop holes
+            const feats = combinedFC.features;
+            let acc = feats[0];
+            for (let i = 1; i < feats.length; i++) {
+                try { const u = turf.union(acc, feats[i]); if (u) acc = u; } catch {}
+            }
+            const prepped = maybeSimplify(acc, combine.simplifyTolerance ?? 0.0015);
+            finalOut = removeHoles(prepped);
+        } else {
+            // "shell": concave/convex on all outline coordinates
+            const coords = turf.coordAll(combinedFC);
+            const points = turf.featureCollection(coords.map(c => turf.point(c)));
+            const { maxEdgeKm = 25, shellType = SHELL.CONCAVE } = combine;
+            finalOut = buildOuterShell(points, { maxEdgeKm, shellType });
+        }
+
+        if (!finalOut) return res.json(turf.featureCollection([]));
+
+        // ensure closed rings
+        if (finalOut?.geometry?.type === 'Polygon') {
+            finalOut.geometry.coordinates = finalOut.geometry.coordinates.map(ring => {
+                const a = ring[0], b = ring[ring.length - 1];
+                return (a[0] !== b[0] || a[1] !== b[1]) ? [...ring, a] : ring;
+            });
+        }
+
+        return res.json(finalOut);
+    } catch (err) {
+        console.error('process-zipcodes-outer error:', err);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
 // ---------- start ----------
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
